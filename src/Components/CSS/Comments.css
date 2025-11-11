@@ -1,0 +1,32 @@
+.commentWrapper {
+  margin-top: 15px;
+}
+
+.commentSection {
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.commentItem {
+  display: flex;
+  justify-content: space-between;
+  background: white;
+  margin-bottom: 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
+}
+
+.addComment {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.deleteBtn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: red;
+}
