@@ -16,31 +16,31 @@ function Footer() {
           
           <div className="footerSection" >
             <h4 className="footerHeading" >Quick Links</h4>
-            <ul className="footerLinks" >
-              <li><a href="#" className="footerLink" >Home</a></li>
-              <li><a href="#" className="footerLink" >About</a></li>
-              <li><a href="#" className="footerLink" >Write a Blog</a></li>
-              <li><a href="#" className="footerLink" >Contact</a></li>
-            </ul>
+            <ul className="footerLinks">
+            <li><a href="#!" onClick={(e) => e.preventDefault()} className="footerLink">Home</a></li>
+            <li><a href="#!" onClick={(e) => e.preventDefault()} className="footerLink">About</a></li>
+            <li><a href="#!" onClick={(e) => e.preventDefault()} className="footerLink">Write a Blog</a></li>
+            <li><a href="#!" onClick={(e) => e.preventDefault()} className="footerLink">Contact</a></li>
+          </ul>
           </div>
           
           <div className="footerSection">
             <h4 className="footerHeading" >Categories</h4>
             <ul className="footerLinks">
-              <li><a href="#" className="footerLink">Technology</a></li>
-              <li><a href="#" className="footerLink">Design</a></li>
-              <li><a href="#" className="footerLink">Development</a></li>
-              <li><a href="#" className="footerLink">LifeclassName</a></li>
+              <li><a href="#!" onClick={(e) => e.preventDefault()} className="footerLink">Technology</a></li>
+              <li><a href="#!" onClick={(e) => e.preventDefault()} className="footerLink">Design</a></li>
+              <li><a href="#!" onClick={(e) => e.preventDefault()} className="footerLink">Development</a></li>
+              <li><a href="#!" onClick={(e) => e.preventDefault()} className="footerLink">LifeclassName</a></li>
             </ul>
           </div>
           
           <div className="footerSection">
             <h4 className="footerHeading">Follow Us</h4>
             <div className="socialLinks">
-              <a href="#" className="socialLink">Facebook</a>
-              <a href="#" className="socialLink">Twitter</a>
-              <a href="#" className="socialLink">Instagram</a>
-              <a href="#" className="socialLink">LinkedIn</a>
+              <a href="https://facebook.com" className="socialLink">Facebook</a>
+              <a href="https://twitter.com" className="socialLink">Twitter</a>
+              <a href="https://instagram.com" className="socialLink">Instagram</a>
+              <a href="https://linkedin.com" className="socialLink">LinkedIn</a>
             </div>
           </div>
         </div>
@@ -48,11 +48,11 @@ function Footer() {
         <div className="footerBottom">
           <p className="copyright">© 2025 BlogHub. All rights reserved.</p>
           <div className="footerBottomLinks">
-            <a href="#" className="footerBottomLink">Privacy Policy</a>
+            <a href="#!" onClick={(e) => e.preventDefault()} className="footerBottomLink">Privacy Policy</a>
             <span className="separator">•</span>
-            <a href="#" className="footerBottomLink">Terms of Service</a>
+            <a href="#!" onClick={(e) => e.preventDefault()} className="footerBottomLink">Terms of Service</a>
             <span className="separator">•</span>
-            <a href="#" className="footerBottomLink">Cookie Policy</a>
+            <a href="#!" onClick={(e) => e.preventDefault()} className="footerBottomLink">Cookie Policy</a>
           </div>
         </div>
       </footer>

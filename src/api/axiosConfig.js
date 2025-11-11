@@ -2,7 +2,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'http://localhost:5000/api', // backend baseURL
+  baseURL: 'https://postsphere-backend-r4mi.onrender.com/api', // backend baseURL
   withCredentials: true, // send cookies for session
 });
 
