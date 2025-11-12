@@ -6,4 +6,5 @@ const api = axios.create({
   withCredentials: true, // send cookies for session
 });
 
+
 export default api;
