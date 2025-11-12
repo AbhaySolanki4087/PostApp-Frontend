@@ -5,7 +5,7 @@ const Navbar = ({ currentUser, setCurrentUser }) => {
 
   const handleLogout = async () => {
     try {
-      await api.post('/logout', {}, { withCredentials: true });
+      await api.post('/logout');
       setCurrentUser(null); // reset currentUser state
     } catch (err) {
       console.error('Logout failed:', err);

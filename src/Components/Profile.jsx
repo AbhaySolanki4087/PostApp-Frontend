@@ -16,7 +16,7 @@ const Profile = ({ currentUser, setCurrentUser }) => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await api.get('/profile', { withCredentials: true });
+        const res = await api.get('/profile');
         if (!res.data.success || !res.data.user) {
           navigate('/login');
           return;
@@ -37,40 +37,43 @@ const Profile = ({ currentUser, setCurrentUser }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSave = async () => {
-    try {
-      const res = await api.put('/profile', { name: formData.name, bio: formData.bio }, { withCredentials: true });
-      setUserData(res.data.user);
-      setIsEditing(false);
-      alert('Profile updated successfully!');
-    } catch (err) {
-      console.error('Error updating profile:', err);
-      alert('Update failed.');
-    }
-  };
+const handleSave = async () => {
+  try {
+    const res = await api.put('/profile', 
+      { name: formData.name, bio: formData.bio } // request body
+    );
+    setUserData(res.data.user);
+    setIsEditing(false);
+    alert('Profile updated successfully!');
+  } catch (err) {
+    console.error('Error updating profile:', err);
+    alert(err.response?.data?.message || 'Update failed.');
+  }
+};
 
   const handleCancel = () => {
     setFormData({ ...userData });
     setIsEditing(false);
   };
 
-  const handleLogout = async () => {
-    try {
-      await api.post("/logout", {}, { withCredentials: true });
-      setCurrentUser(null); // reset state so navbar updates
-      alert("Logged out successfully");
-      navigate("/login");
-    } catch (err) {
+const handleLogout = () => {
+  try{
+    localStorage.removeItem('token');
+    setCurrentUser(null);
+    alert("Logged out successfully");
+    navigate("/login");
+  } catch (err) {
       console.error('Logout failed:', err);
     }
-  };
+};
 
 
 
 const handleDelete = async () => {
   if (window.confirm('Are you sure you want to delete your account?')) {
     try {
-      await api.delete('/profile', { withCredentials: true }); // ✅ cookie-based auth
+      await api.delete('/profile'); // JWT automatically included via interceptor
+      localStorage.removeItem('token'); // remove token after deletion
       alert('Account deleted successfully!');
       setCurrentUser(null); // clear state
       navigate('/register');
@@ -80,6 +83,7 @@ const handleDelete = async () => {
     } 
   }
 };
+
 
   if (loading) return <div className="container">Loading profile...</div>;
 

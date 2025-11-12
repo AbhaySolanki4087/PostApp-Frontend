@@ -25,27 +25,31 @@ const HomePage = () => {
 
 
   // ✅ Safe fetch useEffect
-    useEffect(() => {
-      const fetchData = async () => {
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Fetch current user profile
         if (!currentUser) {
-          try {
-            const res = await api.get('/profile', { withCredentials: true });
-            if (res.data.success && res.data.user) {
-              setCurrentUser(res.data.user.name);
-            } else {
-              navigate('/login');
-              return;
-            }
-          } catch (err) {
+          const res = await api.get('/profile'); // JWT sent automatically
+          if (res.data.success && res.data.user) {
+            setCurrentUser(res.data.user.name);
+          } else {
             navigate('/login');
             return;
           }
         }
-        const resBlogs = await api.get('/blogs', { withCredentials: true });
+
+        // Fetch blogs
+        const resBlogs = await api.get('/blogs'); // JWT sent automatically
         setBlogs(resBlogs.data.blogs || []);
-      };
-      fetchData();
-    }, [currentUser, navigate]);
+      } catch (err) {
+        console.error(err);
+        navigate('/login'); // if anything fails, redirect to login
+      }
+    };
+
+    fetchData();
+  }, [currentUser, navigate]);
 
 
   // Update myPosts whenever blogs or currentUser changes
@@ -83,8 +87,7 @@ const handleSubmitPost = async () => {
     if (uploadedImage) formData.append('image', uploadedImage);
 
     const res = await api.post('/blogs', formData, {
-      withCredentials: true,
-      headers: { 'Content-Type': 'multipart/form-data' },
+      headers: { 'Content-Type': 'multipart/form-data' }, // JWT automatically included via axios
     });
 
     if (res.data.success) {
@@ -103,6 +106,7 @@ const handleSubmitPost = async () => {
     else alert('Failed to create post.');
   }
 };
+
 // handle user commnets on blog
 const handleCommentCountChange = (blogId, newCommentsArray) => {
   setBlogs(prev =>
@@ -111,19 +115,20 @@ const handleCommentCountChange = (blogId, newCommentsArray) => {
     )
   );
 };
+
+// handle likes
 const handleLike = async (blogId) => {
   try {
-    const res = await api.post(`/blogs/${blogId}/like`, {}, { withCredentials: true });
+    const res = await api.post(`/blogs/${blogId}/like`); // JWT sent automatically via headers
     setBlogs(prev =>
       prev.map(blog =>
         blog._id === blogId ? { ...blog, likes: res.data.likes, likedBy: res.data.likedBy } : blog
       )
     );
   } catch (err) {
-    console.error(err);
+    console.error('Failed to like the post:', err);
   }
 };
-
 
 
 // handle share 

@@ -8,49 +8,48 @@ export default function CommentSection({ blogId, currentUser, onCountChange }) {
   const [showSection, setShowSection] = useState(false);
   const [count, setCount] = useState(0);
 
-useEffect(() => {
-  const fetchComments = async () => {
+  // Fetch comments whenever blogId changes
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const res = await api.get(`/blogs/${blogId}/comments`); // JWT sent automatically
+        setComments(res.data.comments || []);
+        setCount(res.data.count || 0);
+      } catch (err) {
+        console.error('Failed to fetch comments:', err);
+      }
+    };
+    fetchComments();
+  }, [blogId]);
+
+  // Add new comment
+  const addComment = async () => {
+    if (!newComment.trim()) return;
     try {
-      const res = await api.get(`/blogs/${blogId}/comments`);
+      const res = await api.post(`/blogs/${blogId}/comment`, {
+        user: currentUser,
+        text: newComment,
+      });
       setComments(res.data.comments);
       setCount(res.data.count);
+      onCountChange(blogId, res.data.comments);
+      setNewComment("");
     } catch (err) {
-      console.error(err);
+      console.error('Failed to add comment:', err);
     }
   };
 
-  fetchComments();
-}, [blogId]); // include blogId in case it changes
-
-
-const addComment = async () => {
-  if (!newComment.trim()) return;
-  try {
-    const res = await api.post(`/blogs/${blogId}/comment`, {
-      user: currentUser,  // string username
-      text: newComment,
-    });
-    setComments(res.data.comments);
-    setCount(res.data.count);
-    onCountChange(blogId, res.data.comments); // pass array to HomePage
-    setNewComment("");
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-
-const deleteComment = async (commentId) => {
-  try {
-    const res = await api.delete(`/blogs/${blogId}/comment/${commentId}`);
-    setComments(res.data.comments);
-    setCount(res.data.count);
-    onCountChange(blogId, res.data.comments); // update parent with new array
-  } catch (err) {
-    console.error(err);
-  }
-};
-
+  // Delete a comment
+  const deleteComment = async (commentId) => {
+    try {
+      const res = await api.delete(`/blogs/${blogId}/comment/${commentId}`);
+      setComments(res.data.comments);
+      setCount(res.data.count);
+      onCountChange(blogId, res.data.comments);
+    } catch (err) {
+      console.error('Failed to delete comment:', err);
+    }
+  };
 
   return (
     <div className="commentWrapper">
@@ -66,17 +65,16 @@ const deleteComment = async (commentId) => {
             <p>No comments yet. Be the first to comment!</p>
           ) : (
             comments.map((c) => (
-            <div key={c._id} className="commentItem">
+              <div key={c._id} className="commentItem">
                 <strong>{c.user}:</strong> {c.text}
-                {c.user === currentUser && (    // currentUser is also a string
-                <button onClick={() => deleteComment(c._id)} className="deleteBtn">
+                {c.user === currentUser && (
+                  <button onClick={() => deleteComment(c._id)} className="deleteBtn">
                     🗑️
-                </button>
+                  </button>
                 )}
-            </div>
+              </div>
             ))
           )}
-          
 
           <div className="addComment">
             <input
