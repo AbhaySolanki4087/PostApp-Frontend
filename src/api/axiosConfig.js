@@ -2,7 +2,8 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: process.env.REACT_APP_API_BASE_URL, // <-- use env variable
+  baseURL: process.env.REACT_APP_API_BASE_URL || "http://localhost:5000/api" 
+  // <-- use env variable
 });
 
 // Attach JWT if present
@@ -14,4 +15,4 @@ api.interceptors.request.use(config => {
 
 export default api; 
 
- 
+  

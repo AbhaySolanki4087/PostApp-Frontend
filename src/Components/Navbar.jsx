@@ -1,16 +1,30 @@
 import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import api from '../api/axiosConfig';
 
 const Navbar = ({ currentUser, setCurrentUser }) => {
+  
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
-      await api.post('/logout');
-      setCurrentUser(null); // reset currentUser state
+      const res = await api.post('/logout');
+
+      // Suppose backend returns { success: true, message: "Logged out" }
+      if (res.data.success) {
+        localStorage.removeItem('token');
+        setCurrentUser(null); // reset currentUser state
+        alert(res.data.message || "User Logged out");
+        navigate("/login");
+      } else {
+        alert("Logout failed on server side");
+      }
     } catch (err) {
       console.error('Logout failed:', err);
+      alert("Error logging out");
     }
   };
+
 
   return (
     <nav className="navbar">
