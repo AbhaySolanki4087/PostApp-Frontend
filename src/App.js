@@ -16,7 +16,7 @@ function App() {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await api.get('/profile', { withCredentials: true });
+        const res = await api.get('/api/profile', { withCredentials: true });
         if (res.data.success && res.data.user) {
           setCurrentUser(res.data.user.name);
         } else {
