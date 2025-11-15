@@ -12,7 +12,7 @@ export default function CommentSection({ blogId, currentUser, onCountChange }) {
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await api.get(`/blogs/${blogId}/comments`); // JWT sent automatically
+        const res = await api.get(`/api/blogs/${blogId}/comments`); // JWT sent automatically
         setComments(res.data.comments || []);
         setCount(res.data.count || 0);
       } catch (err) {
@@ -26,7 +26,7 @@ export default function CommentSection({ blogId, currentUser, onCountChange }) {
   const addComment = async () => {
     if (!newComment.trim()) return;
     try {
-      const res = await api.post(`/blogs/${blogId}/comment`, {
+      const res = await api.post(`/api/blogs/${blogId}/comment`, {
         user: currentUser,
         text: newComment,
       });
@@ -42,7 +42,7 @@ export default function CommentSection({ blogId, currentUser, onCountChange }) {
   // Delete a comment
   const deleteComment = async (commentId) => {
     try {
-      const res = await api.delete(`/blogs/${blogId}/comment/${commentId}`);
+      const res = await api.delete(`/api/blogs/${blogId}/comment/${commentId}`);
       setComments(res.data.comments);
       setCount(res.data.count);
       onCountChange(blogId, res.data.comments);

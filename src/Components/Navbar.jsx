@@ -8,7 +8,7 @@ const Navbar = ({ currentUser, setCurrentUser }) => {
 
   const handleLogout = async () => {
     try {
-      const res = await api.post('/logout');
+      const res = await api.post('/api/logout');
 
       // Suppose backend returns { success: true, message: "Logged out" }
       if (res.data.success) {

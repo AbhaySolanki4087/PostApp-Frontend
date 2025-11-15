@@ -30,7 +30,7 @@ const HomePage = () => {
       try {
         // Fetch current user profile
         if (!currentUser) {
-          const res = await api.get('/profile'); // JWT sent automatically
+          const res = await api.get('/api/profile'); // JWT sent automatically
           if (res.data.success && res.data.user) {
             setCurrentUser(res.data.user.name);
           } else {
@@ -40,7 +40,7 @@ const HomePage = () => {
         }
 
         // Fetch blogs
-        const resBlogs = await api.get('/blogs'); // JWT sent automatically
+        const resBlogs = await api.get('/api//blogs'); // JWT sent automatically
         setBlogs(resBlogs.data.blogs || []);
       } catch (err) {
         console.error(err);
@@ -86,7 +86,7 @@ const handleSubmitPost = async () => {
     formData.append('category', postCategory);
     if (uploadedImage) formData.append('image', uploadedImage);
 
-    const res = await api.post('/blogs', formData, {
+    const res = await api.post('/api/blogs', formData, {
       headers: { 'Content-Type': 'multipart/form-data' }, // JWT automatically included via axios
     });
 
@@ -96,7 +96,7 @@ const handleSubmitPost = async () => {
       setPostContent('');
       setPostCategory('Technology');
       setUploadedImage(null);
-      setImagePreview(null);
+      setImagePreview(null); 
       setShowCreateForm(false);
       alert('Post created successfully!');
     }
@@ -119,7 +119,7 @@ const handleCommentCountChange = (blogId, newCommentsArray) => {
 // handle likes
 const handleLike = async (blogId) => {
   try {
-    const res = await api.post(`/blogs/${blogId}/like`); // JWT sent automatically via headers
+    const res = await api.post(`/api/blogs/${blogId}/like`); // JWT sent automatically via headers
     setBlogs(prev =>
       prev.map(blog =>
         blog._id === blogId ? { ...blog, likes: res.data.likes, likedBy: res.data.likedBy } : blog
@@ -264,7 +264,7 @@ const handleShare = async (blog) => {
                 {blog.image && (
                   <div className="postImageContainer">
                     <img
-                      src={`http://localhost:5000${blog.image}`}
+                      src={`${process.env.REACT_APP_API_BASE_URL}${blog.image}`}
                       alt={blog.title}
                       className="postImage"
                     />

@@ -16,7 +16,7 @@ const Profile = ({ currentUser, setCurrentUser }) => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await api.get('/profile');
+        const res = await api.get('/api/profile');
         if (!res.data.success || !res.data.user) {
           navigate('/login');
           return;
@@ -39,7 +39,7 @@ const Profile = ({ currentUser, setCurrentUser }) => {
 
 const handleSave = async () => {
   try {
-    const res = await api.put('/profile', 
+    const res = await api.put('/api/profile', 
       { name: formData.name, bio: formData.bio } // request body
     );
     setUserData(res.data.user);
@@ -72,7 +72,7 @@ const handleLogout = () => {
 const handleDelete = async () => {
   if (window.confirm('Are you sure you want to delete your account?')) {
     try {
-      await api.delete('/profile'); // JWT automatically included via interceptor
+      await api.delete('/api/profile'); // JWT automatically included via interceptor
       localStorage.removeItem('token'); // remove token after deletion
       alert('Account deleted successfully!');
       setCurrentUser(null); // clear state

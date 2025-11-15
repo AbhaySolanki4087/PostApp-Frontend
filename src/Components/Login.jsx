@@ -32,7 +32,7 @@ function Login({ setCurrentUser }) {
 
     setLoading(true); // ✅ Start loading before API call
     try {
-      const res = await api.post('/login', formData);
+      const res = await api.post('/api/login', formData);
       if (res.data.success) {
         localStorage.setItem('token', res.data.token);
         if (typeof setCurrentUser === 'function') setCurrentUser(res.data.user.name);
