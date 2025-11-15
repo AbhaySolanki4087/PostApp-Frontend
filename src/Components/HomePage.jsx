@@ -40,7 +40,7 @@ const HomePage = () => {
         }
 
         // Fetch blogs
-        const resBlogs = await api.get('/api//blogs'); // JWT sent automatically
+        const resBlogs = await api.get('/api/blogs'); // JWT sent automatically
         setBlogs(resBlogs.data.blogs || []);
       } catch (err) {
         console.error(err);
